@@ -13,7 +13,7 @@ if(!empty($_POST["name"]) && !empty($_POST["image"])) {
     file_put_contents('/var/www/html/Timak/some_image.jpg', base64_decode($_POST["image"]));
 
     # let python do the talking
-    $output = shell_exec("python3 /var/www/html/Timak/add_person.py" . $_POST["name"]);
+    $output = shell_exec("python3 /var/www/html/Timak/add_person.py " . $_POST["name"]. " 2>/dev/null");
     echo $output;
 }
 
