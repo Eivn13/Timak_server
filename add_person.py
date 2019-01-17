@@ -4,11 +4,12 @@ import os
 import socket
 import sys
 import time
+import warnings
 
 # get name of person
 # maybe also surname?
 name = sys.argv[1]
-
+warnings.filterwarnings("ignore")
 # we need different way of telling if neural network is already training
 
 # delete old dataset
@@ -16,7 +17,6 @@ os.chdir('/var/www/html/Timak/facenet/datasets')
 # shutil.rmtree('live_dataset', ignore_errors=True)
 
 # make new dataset and copy picture
-# directory = 'live_dataset'
 try:
     os.makedirs('live_dataset/raw/' + name)
 except OSError as e:
@@ -43,3 +43,4 @@ subprocess.run(['python3', '/var/www/html/Timak/facenet/src/classifier.py', 'TRA
 
 # ---TO DO---
 # signal end of traning somehow
+print('All done motherfuckers!!!')

@@ -1,11 +1,11 @@
 <?php
 $image = '/var/www/html/Timak/some_image.jpg';
 
-# check whether CNN is not busy, because when it is not, the picture will be deleted
-if(file_exists($image)){
-    //echo "Busy";
-    exit("Busy");
-}
+//# check whether CNN is not busy, because when it is not, the picture will be deleted
+//if(file_exists($image)){
+//    //echo "Busy";
+//    exit("Busy");
+//}
 
 if(!empty($_POST["name"]) && !empty($_POST["image"])) {
 
