@@ -46,7 +46,7 @@ pretty_output = output[-2]
 # print(pretty_output)
 certainty = float(output[-1])
 # print(certainty)
-if certainity > 0.4:
+if certainty > 0.4:
     print(pretty_output[:-1])
 else:
     print("Unknown")
