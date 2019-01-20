@@ -1,5 +1,5 @@
 <?php
-$image = '/var/www/html/Timak/some_image.jpg';
+//$image = '/var/www/html/Timak/some_image.jpg';
 
 //# check whether CNN is not busy, because when it is not, the picture will be deleted
 //if(file_exists($image)){

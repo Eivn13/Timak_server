@@ -8,10 +8,8 @@ file_loc_name = "/var/www/html/Timak/facenet/datasets/unknown/raw/Test/rec_this_
 raw_dir = "/var/www/html/Timak/facenet/datasets/unknown/raw"
 pre_dir = "/var/www/html/Timak/facenet/datasets/unknown/unknown_160"
 
-
-
 # Premenna 'string' je string fotografie v base64
-string = "" 
+string = ""
 for word in sys.argv[1:]:
     string += word + " "
 
@@ -19,37 +17,39 @@ for word in sys.argv[1:]:
 imgdata = base64.b64decode(string)
 filename = file_loc_name
 
-with open(filename, 'wb') as f:
-    f.write(imgdata)
+try:
+    with open(filename, 'wb') as f:
+        f.write(imgdata)
+except (IOError, ValueError, IndexError) as e:
+    errorMessage = '{}'.format(e)
+    print(errorMessage)
 
 # ak neprepisuje obrazok
 # subprocess.run(['rm', '/var/www/html/Timak/facenet/datasets/unknown/unknown_160/Test/rec_this_face.png'])
-print("align\n")
+
 # cnn ALIGN
-subprocess.run(['python3', '/var/www/html/Timak/facenet/src/align/align_dataset_mtcnn.py',
+subprocess.run(['python3', '/var/www/html/Timak/facenet/src/align_dataset_mtcnn.py',
                 '/var/www/html/Timak/facenet/datasets/unknown/raw/',
                 '/var/www/html/Timak/facenet/datasets/unknown/unknown_160/',
-                '--image_size', '160', '--margin', '32', '--random_order'])
-print("classifying\n")
+                '--image_size', '160', '--margin', '32', '--random_order'], cwd='/var/www/html/Timak')
+
 # classify
 output = subprocess.check_output(['python3', '/var/www/html/Timak/facenet/src/classifier.py', 'CLASSIFY',
-                '/var/www/html/Timak/facenet/datasets/unknown/unknown_160/',
-                '/var/www/html/Timak/facenet/models/20180402-114759/20180402-114759.pb',
-                '/var/www/html/Timak/facenet/models/20180402-114759/my_classifier.pkl', '--batch_size', '1000'])
+                                  '/var/www/html/Timak/facenet/datasets/unknown/unknown_160/',
+                                  '/var/www/html/Timak/facenet/models/20180402-114759/20180402-114759.pb',
+                                  '/var/www/html/Timak/facenet/models/20180402-114759/my_classifier.pkl',
+                                  '--batch_size', '1000'])
 
-# tento hnus by sa mohol presunut do shellu
 output = output.decode("utf-8")
-output = output.splitlines()
-output = output[-2]
 output = output.split()
-pretty_output = output[1]
-certainity = float(output[2])
-
-print(output[2])
-if certainity > 0.5:
+pretty_output = output[-2]
+# print(pretty_output)
+certainity = float(output[-1])
+# print(certainity)
+if certainity > 0.4:
     print(pretty_output[:-1])
 else:
-    print("Unknown")
+    print("Unknown_ACC:_",certainity)
 
 # Simulovanie oneskorenia
 # time.sleep(5)
