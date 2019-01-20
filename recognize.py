@@ -44,12 +44,13 @@ output = output.decode("utf-8")
 output = output.split()
 pretty_output = output[-2]
 # print(pretty_output)
-certainity = float(output[-1])
-# print(certainity)
+certainty = float(output[-1])
+# print(certainty)
 if certainity > 0.4:
     print(pretty_output[:-1])
 else:
-    print("Unknown_ACC:_",certainity)
+    print("Unknown")
+# print('{} {}'.format(pretty_output, certainty))
 
 # Simulovanie oneskorenia
 # time.sleep(5)
